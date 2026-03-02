@@ -1,0 +1,3 @@
+microservices/user_service/bin/*
+.idea
+microservices/user_service/.env

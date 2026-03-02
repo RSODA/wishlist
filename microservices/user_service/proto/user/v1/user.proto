@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package user_v1;
+
+option go_package = "github.com/RSODA/wishlist";
+
+service UserV1 {
+  rpc GetSub(GetSubRequest) returns (GetSubResponse);
+  rpc Subscribe(SubscribeRequest) returns (SubscribeResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+}
+
+message User {
+  int64 id = 1;
+  string name = 2;
+  int64 tg_id = 3;
+  repeated Subscribe subscribe = 4;
+}
+
+message Subscribe {
+  int64 tg_id = 1;
+  string username = 2;
+  bool is_accepted = 3;
+}
+
+message GetSubRequest {
+  int64 tg_id = 1;
+}
+
+message GetSubResponse {
+  repeated Subscribe follower = 1;
+}
+
+message SubscribeRequest {
+  int64 tg_id = 1;
+  int64 to_tg_id = 2;
+}
+
+message SubscribeResponse {}
+
+message CreateUserRequest {
+  int64 tg_id = 1;
+  string username = 2;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}

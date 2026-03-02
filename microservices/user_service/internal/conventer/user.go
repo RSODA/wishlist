@@ -21,3 +21,17 @@ func ToServiceUserCreate(userCreateAPI *wishlist.CreateUserRequest) *modelsServi
 		TgID:     userCreateAPI.TgId,
 	}
 }
+
+func ToAPIGetSub(items *[]modelsService.Subscribe) *wishlist.GetSubResponse {
+	var sub wishlist.GetSubResponse
+
+	for _, v := range *items {
+		sub.Follower = append(sub.Follower, &wishlist.Subscribe{
+			TgId:       v.TgID,
+			Username:   v.Username,
+			IsAccepted: v.IsAccepted,
+		})
+	}
+
+	return &sub
+}

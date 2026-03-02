@@ -9,6 +9,7 @@ import (
 
 type UserService interface {
 	CreateUser(ctx context.Context, req *models.CreateUserRequest) error
+	GetSub(ctx context.Context, tgID int64) (*[]models.Subscribe, error)
 }
 
 type userService struct {

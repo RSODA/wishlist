@@ -25,6 +25,7 @@ type UserV1Client interface {
 	GetSub(ctx context.Context, in *GetSubRequest, opts ...grpc.CallOption) (*GetSubResponse, error)
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	AcceptedSub(ctx context.Context, in *AcceptedSubRequest, opts ...grpc.CallOption) (*AcceptedSubResponse, error)
 }
 
 type userV1Client struct {
@@ -62,6 +63,15 @@ func (c *userV1Client) CreateUser(ctx context.Context, in *CreateUserRequest, op
 	return out, nil
 }
 
+func (c *userV1Client) AcceptedSub(ctx context.Context, in *AcceptedSubRequest, opts ...grpc.CallOption) (*AcceptedSubResponse, error) {
+	out := new(AcceptedSubResponse)
+	err := c.cc.Invoke(ctx, "/user_v1.UserV1/AcceptedSub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserV1Server is the server API for UserV1 service.
 // All implementations must embed UnimplementedUserV1Server
 // for forward compatibility
@@ -69,6 +79,7 @@ type UserV1Server interface {
 	GetSub(context.Context, *GetSubRequest) (*GetSubResponse, error)
 	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	AcceptedSub(context.Context, *AcceptedSubRequest) (*AcceptedSubResponse, error)
 	mustEmbedUnimplementedUserV1Server()
 }
 
@@ -84,6 +95,9 @@ func (UnimplementedUserV1Server) Subscribe(context.Context, *SubscribeRequest) (
 }
 func (UnimplementedUserV1Server) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedUserV1Server) AcceptedSub(context.Context, *AcceptedSubRequest) (*AcceptedSubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AcceptedSub not implemented")
 }
 func (UnimplementedUserV1Server) mustEmbedUnimplementedUserV1Server() {}
 
@@ -152,6 +166,24 @@ func _UserV1_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserV1_AcceptedSub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcceptedSubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserV1Server).AcceptedSub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user_v1.UserV1/AcceptedSub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserV1Server).AcceptedSub(ctx, req.(*AcceptedSubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserV1_ServiceDesc is the grpc.ServiceDesc for UserV1 service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,6 +202,10 @@ var UserV1_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _UserV1_CreateUser_Handler,
+		},
+		{
+			MethodName: "AcceptedSub",
+			Handler:    _UserV1_AcceptedSub_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

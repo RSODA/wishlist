@@ -35,3 +35,33 @@ func ToAPIGetSub(items *[]modelsService.Subscribe) *wishlist.GetSubResponse {
 
 	return &sub
 }
+
+func ToRepoSubscribe(req *modelsService.SubscribeRequest) *modelsRepository.SubscribeRequest {
+	return &modelsRepository.SubscribeRequest{
+		ToTgID:     req.ToTgID,
+		TgID:       req.TgID,
+		ToUsername: req.ToUsername,
+	}
+}
+
+func ToServiceSubscribe(tgID int64, req *wishlist.SubscribeRequest) *modelsService.SubscribeRequest {
+	return &modelsService.SubscribeRequest{
+		TgID:       tgID,
+		ToTgID:     req.ToTgId,
+		ToUsername: req.ToUsername,
+	}
+}
+
+func ToRepoAcceptedSub(req *modelsService.AcceptedSubRequest) *modelsRepository.AcceptedSubRequests {
+	return &modelsRepository.AcceptedSubRequests{
+		TgID:         req.TgID,
+		AcceptedTgId: req.AcceptedTgID,
+	}
+}
+
+func ToServiceAcceptedSub(tgID int64, req *wishlist.AcceptedSubRequest) *modelsService.AcceptedSubRequest {
+	return &modelsService.AcceptedSubRequest{
+		TgID:         tgID,
+		AcceptedTgID: req.AcceptedTgId,
+	}
+}

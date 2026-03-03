@@ -16,5 +16,4 @@ lint:
 
 
 proto-generate:
-	make lint
 	cd proto && $(LOCAL_BIN)/buf generate

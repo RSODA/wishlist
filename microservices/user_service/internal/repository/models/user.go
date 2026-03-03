@@ -21,3 +21,14 @@ type CreateUserRequest struct {
 	TgID     int64  `json:"tg_id" db:"tg_id"`
 	Username string `json:"username" db:"username"`
 }
+
+type SubscribeRequest struct {
+	TgID       int64  `json:"tg_id" db:"tg_id"`
+	ToTgID     int64  `json:"to_tg_id" db:"to_tg_id"`
+	ToUsername string `json:"to_username" db:"to_username"`
+}
+
+type AcceptedSubRequests struct {
+	TgID         int64 `json:"tg_id" db:"tg_id"`
+	AcceptedTgId int64 `json:"accepted_tg_id" db:"accepted_tg_id"`
+}

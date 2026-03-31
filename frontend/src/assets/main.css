@@ -1,0 +1,27 @@
+@import './base.css';
+
+:root {
+  --app-bg: #0b1220;
+  --surface-primary: #111a2c;
+  --surface-secondary: #1a2740;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border-primary: #2a3b5e;
+  --border-secondary: #3b4f75;
+  --accent-primary: #38bdf8;
+  background-color: var(--app-bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #13213a 0%, #0b1220 50%, #080d19 100%);
+  color: var(--text-primary);
+}
+
+#app {
+  min-height: 100vh;
+}

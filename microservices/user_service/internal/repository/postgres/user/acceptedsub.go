@@ -14,8 +14,8 @@ func (p *Postgres) AcceptedSub(ctx context.Context, req *modelsRepo.AcceptedSubR
 	builder := sqr.Update(subTableName).
 		Set(subIsAccepted, true).
 		Where(
-			sqr.Eq{subToId: req.AcceptedTgId},
-			sqr.Eq{subFromId: req.TgID}).
+			sqr.Eq{subToId: req.TgID},
+			sqr.Eq{subFromId: req.AcceptedID}).
 		PlaceholderFormat(sqr.Dollar)
 
 	fmt.Println(req)

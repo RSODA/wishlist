@@ -6,11 +6,14 @@ import (
 )
 
 const (
-	userTableName   = "users"
-	idColumn        = "id"
-	tgIdColumn      = "tg_id"
-	usernameColumn  = "username"
-	subscribeColumn = "subscribe"
+	userTableName      = "users"
+	userTgIdColumn     = "tg_id"
+	userUsernameColumn = "username"
+
+	subTableName  = "sub"
+	subFromId     = "id_from"
+	subToId       = "id_to"
+	subIsAccepted = "is_accepted"
 )
 
 type Postgres struct {

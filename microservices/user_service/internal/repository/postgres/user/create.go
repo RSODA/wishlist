@@ -11,7 +11,7 @@ import (
 )
 
 func (p *Postgres) CreateUser(ctx context.Context, req *modelsRepo.CreateUserRequest) error {
-	builder := sqr.Insert(userTableName).PlaceholderFormat(sqr.Dollar).Columns(tgIdColumn, usernameColumn).Values(req.TgID, req.Username)
+	builder := sqr.Insert(userTableName).PlaceholderFormat(sqr.Dollar).Columns(userTgIdColumn, userUsernameColumn).Values(req.TgID, req.Username)
 
 	query, args, err := builder.ToSql()
 	if err != nil {

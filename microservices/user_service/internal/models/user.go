@@ -12,9 +12,8 @@ type User struct {
 }
 
 type Subscribe struct {
-	TgID       int64  `json:"tg_id" db:"tg_id"`
-	Username   string `json:"username" db:"username"`
-	IsAccepted bool   `json:"is_accepted" db:"is_accepted"`
+	TgID       int64 `json:"tg_id" db:"tg_id"`
+	IsAccepted bool  `json:"is_accepted" db:"is_accepted"`
 }
 
 type CreateUserRequest struct {

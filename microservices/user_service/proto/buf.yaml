@@ -1,6 +1,8 @@
 version: v2
+deps:
+  - buf.build/googleapis/googleapis
 lint:
   use:
-    - STANDART
+    - STANDARD
     - COMMENT_ENUM
     - COMMENT_MESSAGE

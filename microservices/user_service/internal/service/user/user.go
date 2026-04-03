@@ -5,11 +5,12 @@ import (
 
 	"github.com/RSODA/wishlist/internal/models"
 	"github.com/RSODA/wishlist/internal/repository"
+	repoModels "github.com/RSODA/wishlist/internal/repository/models"
 )
 
 type UserService interface {
 	CreateUser(ctx context.Context, req *models.CreateUserRequest) error
-	GetSub(ctx context.Context, tgID int64) (*[]models.Subscribe, error)
+	GetSub(ctx context.Context, tgID int64, isAccepted bool) (*repoModels.GetSubResponse, error)
 	Subscribe(ctx context.Context, req *models.SubscribeRequest) error
 	AcceptedSub(ctx context.Context, req *models.AcceptedSubRequest) error
 }

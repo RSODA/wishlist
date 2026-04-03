@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"strconv"
+	"strings"
 
 	"github.com/RSODA/wishlist/internal/conventer"
 	"github.com/RSODA/wishlist/internal/models"
@@ -24,7 +25,14 @@ func (i *Implementation) Subscribe(ctx context.Context, req *wishlist.SubscribeR
 		return nil, status.Error(codes.InvalidArgument, "missing token")
 	}
 
-	tgId, err := strconv.ParseInt(mdAuth[0], 10, 64)
+	const prefix = "Bearer "
+	if !strings.HasPrefix(mdAuth[0], prefix) {
+		return nil, status.Error(codes.Unauthenticated, "invalid token format")
+	}
+
+	tokenStr := strings.TrimPrefix(mdAuth[0], prefix)
+
+	tgId, err := strconv.ParseInt(tokenStr, 10, 64)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid parse token")
 	}
@@ -36,6 +44,9 @@ func (i *Implementation) Subscribe(ctx context.Context, req *wishlist.SubscribeR
 		}
 		if errors.Is(err, models.ErrJsonMarshal) {
 			return nil, status.Error(codes.InvalidArgument, "json marshalling error")
+		}
+		if errors.Is(err, models.ErrUserToSubscription) {
+			return nil, status.Error(codes.InvalidArgument, "user to subscription not found")
 		}
 		if errors.Is(err, models.ErrSubscribe) {
 			return nil, status.Error(codes.Unknown, "subscribe error")

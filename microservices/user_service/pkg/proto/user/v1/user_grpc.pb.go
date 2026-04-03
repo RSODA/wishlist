@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: user/v1/user.proto
 
-package wishlist
+package user_v1
 
 import (
 	context "context"
@@ -38,7 +38,7 @@ func NewUserV1Client(cc grpc.ClientConnInterface) UserV1Client {
 
 func (c *userV1Client) GetSub(ctx context.Context, in *GetSubRequest, opts ...grpc.CallOption) (*GetSubResponse, error) {
 	out := new(GetSubResponse)
-	err := c.cc.Invoke(ctx, "/user_v1.UserV1/GetSub", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/user.v1.UserV1/GetSub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *userV1Client) GetSub(ctx context.Context, in *GetSubRequest, opts ...gr
 
 func (c *userV1Client) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
 	out := new(SubscribeResponse)
-	err := c.cc.Invoke(ctx, "/user_v1.UserV1/Subscribe", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/user.v1.UserV1/Subscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *userV1Client) Subscribe(ctx context.Context, in *SubscribeRequest, opts
 
 func (c *userV1Client) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
 	out := new(CreateUserResponse)
-	err := c.cc.Invoke(ctx, "/user_v1.UserV1/CreateUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/user.v1.UserV1/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *userV1Client) CreateUser(ctx context.Context, in *CreateUserRequest, op
 
 func (c *userV1Client) AcceptedSub(ctx context.Context, in *AcceptedSubRequest, opts ...grpc.CallOption) (*AcceptedSubResponse, error) {
 	out := new(AcceptedSubResponse)
-	err := c.cc.Invoke(ctx, "/user_v1.UserV1/AcceptedSub", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/user.v1.UserV1/AcceptedSub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func _UserV1_GetSub_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user_v1.UserV1/GetSub",
+		FullMethod: "/user.v1.UserV1/GetSub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserV1Server).GetSub(ctx, req.(*GetSubRequest))
@@ -140,7 +140,7 @@ func _UserV1_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user_v1.UserV1/Subscribe",
+		FullMethod: "/user.v1.UserV1/Subscribe",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserV1Server).Subscribe(ctx, req.(*SubscribeRequest))
@@ -158,7 +158,7 @@ func _UserV1_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user_v1.UserV1/CreateUser",
+		FullMethod: "/user.v1.UserV1/CreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserV1Server).CreateUser(ctx, req.(*CreateUserRequest))
@@ -176,7 +176,7 @@ func _UserV1_AcceptedSub_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user_v1.UserV1/AcceptedSub",
+		FullMethod: "/user.v1.UserV1/AcceptedSub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserV1Server).AcceptedSub(ctx, req.(*AcceptedSubRequest))
@@ -188,7 +188,7 @@ func _UserV1_AcceptedSub_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UserV1_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "user_v1.UserV1",
+	ServiceName: "user.v1.UserV1",
 	HandlerType: (*UserV1Server)(nil),
 	Methods: []grpc.MethodDesc{
 		{

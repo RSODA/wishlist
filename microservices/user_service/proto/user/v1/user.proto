@@ -1,14 +1,35 @@
 syntax = "proto3";
 
-package user_v1;
+package user.v1;
 
-option go_package = "github.com/RSODA/wishlist";
+option go_package = "github.com/RSODA/wishlist/pkg/proto/user/v1;user_v1";
+
+import "google/api/annotations.proto";
 
 service UserV1 {
-  rpc GetSub(GetSubRequest) returns (GetSubResponse);
-  rpc Subscribe(SubscribeRequest) returns (SubscribeResponse);
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
-  rpc AcceptedSub(AcceptedSubRequest) returns (AcceptedSubResponse);
+  rpc GetSub(GetSubRequest) returns (GetSubResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/user/{tg_id}"
+    };
+  };
+  rpc Subscribe(SubscribeRequest) returns (SubscribeResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/subscribe"
+      body: "*"
+    };
+  };
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user"
+      body: "*"
+    };
+  };
+  rpc AcceptedSub(AcceptedSubRequest) returns (AcceptedSubResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/user/accepted-sub"
+      body: "*"
+    };
+  };
 }
 
 message User {
@@ -26,14 +47,15 @@ message Subscribe {
 
 message GetSubRequest {
   int64 tg_id = 1;
+  bool is_accepted = 2;
 }
 
 message GetSubResponse {
-  repeated Subscribe follower = 1;
+  string username = 1;
+  repeated Subscribe follower = 2;
 }
 
 message SubscribeRequest {
-  int64 to_tg_id = 1;
   string to_username = 2;
 }
 

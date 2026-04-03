@@ -22,32 +22,30 @@ func ToServiceUserCreate(userCreateAPI *wishlist.CreateUserRequest) *modelsServi
 	}
 }
 
-func ToAPIGetSub(items *[]modelsService.Subscribe) *wishlist.GetSubResponse {
-	var sub wishlist.GetSubResponse
+func ToAPIGetSub(items []modelsRepository.Subscribe) []*wishlist.Subscribe {
+	var sub []*wishlist.Subscribe
 
-	for _, v := range *items {
-		sub.Follower = append(sub.Follower, &wishlist.Subscribe{
+	for _, v := range items {
+		sub = append(sub, &wishlist.Subscribe{
 			TgId:       v.TgID,
 			Username:   v.Username,
 			IsAccepted: v.IsAccepted,
 		})
 	}
 
-	return &sub
+	return sub
 }
 
 func ToRepoSubscribe(req *modelsService.SubscribeRequest) *modelsRepository.SubscribeRequest {
 	return &modelsRepository.SubscribeRequest{
-		ToTgID:     req.ToTgID,
-		TgID:       req.TgID,
-		ToUsername: req.ToUsername,
+		ToTgID: req.ToTgID,
+		TgID:   req.TgID,
 	}
 }
 
 func ToServiceSubscribe(tgID int64, req *wishlist.SubscribeRequest) *modelsService.SubscribeRequest {
 	return &modelsService.SubscribeRequest{
 		TgID:       tgID,
-		ToTgID:     req.ToTgId,
 		ToUsername: req.ToUsername,
 	}
 }

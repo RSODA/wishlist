@@ -11,6 +11,8 @@ var ErrEmptyValue = errors.New("empty user value")
 var ErrGetSub = errors.New("get sub failed")
 var ErrInvalidId = errors.New("invalid id")
 var ErrUserNotFound = errors.New("user not found")
+var ErrUserToSubscription = errors.New("user to subscription failed")
+var ErrUserAlreadySubscribed = errors.New("user to subscription failed")
 
 // subscribe
 var ErrJsonMarshal = errors.New("json marshal failed")

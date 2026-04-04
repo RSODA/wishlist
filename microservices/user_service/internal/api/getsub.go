@@ -13,7 +13,7 @@ import (
 )
 
 func (i *Implementation) GetSub(ctx context.Context, req *wishlist.GetSubRequest) (*wishlist.GetSubResponse, error) {
-	res, err := i.userService.GetSub(ctx, req.TgId, req.IsAccepted)
+	res, err := i.userService.GetSub(ctx, req.TgId)
 
 	fmt.Println(res)
 	if err != nil {
@@ -32,7 +32,7 @@ func (i *Implementation) GetSub(ctx context.Context, req *wishlist.GetSubRequest
 		return nil, status.Error(codes.Internal, "db error")
 	}
 
-	fmt.Println(&wishlist.GetSubResponse{Username: res.Username, Follower: conventer.ToAPIGetSub(res.Sub)})
+	fmt.Println(&wishlist.GetSubResponse{Username: res.Username, FollowerTo: conventer.ToAPIGetSub(res.SubTo), FollowerFrom: conventer.ToAPIGetSub(res.SubFrom)})
 
-	return &wishlist.GetSubResponse{Username: res.Username, Follower: conventer.ToAPIGetSub(res.Sub)}, nil
+	return &wishlist.GetSubResponse{Username: res.Username, FollowerTo: conventer.ToAPIGetSub(res.SubTo), FollowerFrom: conventer.ToAPIGetSub(res.SubFrom)}, nil
 }

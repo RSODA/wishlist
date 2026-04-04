@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	sqr "github.com/Masterminds/squirrel"
@@ -15,11 +14,9 @@ func (p *Postgres) AcceptedSub(ctx context.Context, req *modelsRepo.AcceptedSubR
 		Set(subIsAccepted, true).
 		Where(
 			sqr.Eq{subToId: req.TgID},
-			sqr.Eq{subFromId: req.AcceptedID}).
+			sqr.Eq{subFromId: req.AcceptedTgId}).
 		PlaceholderFormat(sqr.Dollar)
 
-	fmt.Println(req)
-	
 	query, args, err := builder.ToSql()
 	if err != nil {
 		log.Println("Err parse to sql: ", err)

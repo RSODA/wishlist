@@ -10,7 +10,7 @@ import (
 
 type UserService interface {
 	CreateUser(ctx context.Context, req *models.CreateUserRequest) error
-	GetSub(ctx context.Context, tgID int64, isAccepted bool) (*repoModels.GetSubResponse, error)
+	GetSub(ctx context.Context, tgID int64) (*repoModels.GetSubResponse, error)
 	Subscribe(ctx context.Context, req *models.SubscribeRequest) error
 	AcceptedSub(ctx context.Context, req *models.AcceptedSubRequest) error
 }

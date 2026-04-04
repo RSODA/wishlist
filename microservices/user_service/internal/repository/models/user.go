@@ -19,7 +19,8 @@ type Subscribe struct {
 
 type GetSubResponse struct {
 	Username string      `json:"username" db:"username"`
-	Sub      []Subscribe `json:"sub" db:"sub"`
+	SubFrom  []Subscribe `json:"sub" db:"sub"`
+	SubTo    []Subscribe `json:"sub_to" db:"sub_to"`
 }
 type CreateUserRequest struct {
 	TgID     int64  `json:"tg_id" db:"tg_id"`

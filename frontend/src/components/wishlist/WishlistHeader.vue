@@ -11,7 +11,13 @@
         <span>Поиск</span>
       </button>
 
-      <button type="button" class="action-btn plus-btn" aria-label="Добавить">
+      <button
+        type="button"
+        class="action-btn plus-btn"
+        aria-label="Добавить пользователя"
+        :disabled="!canAddUser"
+        @click="$emit('open-add-user')"
+      >
         +
       </button>
     </div>
@@ -20,7 +26,14 @@
 
 <script>
 export default {
-  name: 'WishlistHeader'
+  name: 'WishlistHeader',
+  emits: ['open-add-user'],
+  props: {
+    canAddUser: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 
@@ -55,6 +68,12 @@ export default {
   font-weight: 600;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.action-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .search-btn {
@@ -81,5 +100,9 @@ export default {
   color: #ffffff;
   font-size: 24px;
   line-height: 1;
+}
+
+.plus-btn:not(:disabled):active {
+  transform: scale(0.96);
 }
 </style>

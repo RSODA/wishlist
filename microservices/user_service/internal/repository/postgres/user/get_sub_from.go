@@ -12,18 +12,21 @@ import (
 	"github.com/RSODA/wishlist/internal/repository/models"
 )
 
-func (p *Postgres) GetSub(ctx context.Context, tgID int64, isAccepted bool) (*models.GetSubResponse, error) {
+func (p *Postgres) GetSubFrom(ctx context.Context, tgID int64) (*models.GetSubResponse, error) {
 	var items []models.Subscribe
 	var username string
 
-	fmt.Println("hi: ", tgID, isAccepted)
+	fmt.Println("hi: ", tgID)
 
-	builder := sqr.Select("users.username, sub.id_to, sub.is_accepted, u2.username AS to_username").From(userTableName + " users").PlaceholderFormat(sqr.Dollar).LeftJoin(subTableName + " sub ON users.tg_id = sub.id_from").
-		LeftJoin(userTableName + " u2 ON u2.tg_id = sub.id_to").
+	builder := sqr.
+		Select("users.username, sub.id_to, sub.is_accepted, u2.username AS to_username").
+		From(userTableName + " users").
+		Join(subTableName + " sub ON users.tg_id = sub.id_from").
+		Join(userTableName + " u2 ON u2.tg_id = sub.id_to").
 		Where(sqr.Eq{
 			"users." + userTgIdColumn: tgID,
-			"sub." + subIsAccepted:    isAccepted,
-		})
+		}).
+		PlaceholderFormat(sqr.Dollar)
 	query, args, err := builder.ToSql()
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -54,6 +57,6 @@ func (p *Postgres) GetSub(ctx context.Context, tgID int64, isAccepted bool) (*mo
 
 	return &models.GetSubResponse{
 		Username: username,
-		Sub:      items,
+		SubFrom:  items,
 	}, nil
 }

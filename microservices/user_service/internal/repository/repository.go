@@ -8,7 +8,8 @@ import (
 
 type UserRepository interface {
 	CreateUser(ctx context.Context, req *repoModels.CreateUserRequest) error
-	GetSub(ctx context.Context, tgID int64, isAccepted bool) (*repoModels.GetSubResponse, error)
+	GetSubFrom(ctx context.Context, tgID int64) (*repoModels.GetSubResponse, error)
+	GetSubTo(ctx context.Context, tgId int64) ([]repoModels.Subscribe, error)
 	Subscribe(ctx context.Context, req *repoModels.SubscribeRequest) error
 	AcceptedSub(ctx context.Context, req *repoModels.AcceptedSubRequests) error
 	GetUser(ctx context.Context, name string) (int64, error)

@@ -47,12 +47,12 @@ message Subscribe {
 
 message GetSubRequest {
   int64 tg_id = 1;
-  bool is_accepted = 2;
 }
 
 message GetSubResponse {
   string username = 1;
-  repeated Subscribe follower = 2;
+  repeated Subscribe follower_to = 2;
+  repeated Subscribe follower_from = 3;
 }
 
 message SubscribeRequest {

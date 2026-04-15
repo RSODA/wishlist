@@ -7,6 +7,8 @@ var ErrCreateUser = errors.New("create user failed")
 var ErrUserIsExist = errors.New("user is exist")
 var ErrEmptyValue = errors.New("empty user value")
 
+var ErrGetUser = errors.New("get user failed")
+
 // get sub error
 var ErrGetSub = errors.New("get sub failed")
 var ErrInvalidId = errors.New("invalid id")

@@ -1,11 +1,6 @@
 package models
 
-import (
-	"github.com/google/uuid"
-)
-
 type User struct {
-	ID        uuid.UUID   `json:"id" db:"id"`
 	TgID      int64       `json:"tg_id" db:"tg_id"`
 	Username  string      `json:"username" db:"username"`
 	Subscribe []Subscribe `json:"subscribe" db:"subscribe"`
@@ -35,4 +30,8 @@ type SubscribeRequest struct {
 type AcceptedSubRequests struct {
 	TgID         int64 `json:"tg_id" db:"tg_id"`
 	AcceptedTgId int64 `json:"accepted_tg_id" db:"accepted_tg_id"`
+}
+
+type GetUserByIDResponse struct {
+	User User `json:"user"`
 }

@@ -1,0 +1,4 @@
+./wish.pb.go
+./wish.pb.gw.go
+./wish_grpc.pb.go
+./wish_http.go

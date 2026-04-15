@@ -45,6 +45,14 @@ message Subscribe {
   bool is_accepted = 3;
 }
 
+message GetUserRequest {
+  int64 tg_id = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
 message GetSubRequest {
   int64 tg_id = 1;
 }

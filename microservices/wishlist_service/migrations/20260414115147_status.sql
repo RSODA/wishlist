@@ -1,0 +1,13 @@
+-- +goose Up
+ALTER TABLE status
+    ALTER COLUMN title TYPE VARCHAR(25);
+
+ALTER TABLE status
+    ADD COLUMN IF NOT EXISTS tg_id BIGINT NOT NULL DEFAULT 0;
+
+-- +goose Down
+ALTER TABLE status
+    DROP COLUMN IF EXISTS tg_id;
+
+ALTER TABLE status
+    ALTER COLUMN title TYPE VARCHAR(15);

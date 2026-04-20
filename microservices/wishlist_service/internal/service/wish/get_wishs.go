@@ -7,17 +7,15 @@ import (
 	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/models"
 )
 
-func (s *wish) GetById(ctx context.Context, id int64) (*models.Wish, error) {
-	if id < 0 {
+func (s *wish) GetWishs(ctx context.Context, req *models.GetWishsRequest) (*models.GetWishsResponse, error) {
+	if req.TgID < 0 {
 		return nil, errors_entity.ErrInvalidId
 	}
 
-	res, err := s.r.GetById(ctx, id)
+	resp, err := s.r.GetWishs(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	res.Picture = "http://localhost:8080/assets/" + res.Picture + ".jpg"
-
-	return res, nil
+	return resp, nil
 }

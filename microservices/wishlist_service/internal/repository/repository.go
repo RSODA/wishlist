@@ -9,4 +9,5 @@ import (
 type Repository interface {
 	Create(ctx context.Context, req *models.CreateRequest) (*int64, error)
 	GetById(ctx context.Context, id int64) (*models.Wish, error)
+	GetWishs(ctx context.Context, req *models.GetWishsRequest) (*models.GetWishsResponse, error)
 }

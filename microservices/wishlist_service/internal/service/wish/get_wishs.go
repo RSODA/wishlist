@@ -5,6 +5,7 @@ import (
 	"log"
 
 	errors_entity "github.com/RSODA/wishlist/microservices/wishlist_service/internal/err"
+	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/media"
 	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/models"
 )
 
@@ -32,7 +33,7 @@ func (s *wish) GetWishs(ctx context.Context, req *models.GetWishsRequest) (*mode
 	}
 
 	for _, v := range resp.Wishs {
-		v.Picture = "http://localhost:8081/api/v1/static/" + v.Picture
+		v.Picture = media.StaticUrl(s.host, v.Picture)
 	}
 
 	return resp, nil

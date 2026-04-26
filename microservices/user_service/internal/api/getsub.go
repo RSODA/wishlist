@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/RSODA/wishlist/internal/conventer"
 	"github.com/RSODA/wishlist/internal/models"
@@ -15,7 +14,6 @@ import (
 func (i *Implementation) GetSub(ctx context.Context, req *wishlist.GetSubRequest) (*wishlist.GetSubResponse, error) {
 	res, err := i.userService.GetSub(ctx, req.TgId)
 
-	fmt.Println(res)
 	if err != nil {
 		if errors.Is(err, models.ErrInvalidId) {
 			return nil, status.Error(codes.InvalidArgument, "invalid user id")
@@ -31,8 +29,6 @@ func (i *Implementation) GetSub(ctx context.Context, req *wishlist.GetSubRequest
 
 		return nil, status.Error(codes.Internal, "db error")
 	}
-
-	fmt.Println(&wishlist.GetSubResponse{Username: res.Username, FollowerTo: conventer.ToAPIGetSub(res.SubTo), FollowerFrom: conventer.ToAPIGetSub(res.SubFrom)})
 
 	return &wishlist.GetSubResponse{Username: res.Username, FollowerTo: conventer.ToAPIGetSub(res.SubTo), FollowerFrom: conventer.ToAPIGetSub(res.SubFrom)}, nil
 }

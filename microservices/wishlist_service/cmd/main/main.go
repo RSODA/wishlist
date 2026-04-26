@@ -31,6 +31,12 @@ func main() {
 
 	config.Load()
 
+	httpAddr, err := config.NewHTTPConfig()
+	if err != nil {
+		log.Fatal("err init http config: ", err)
+		return
+	}
+
 	dsn := config.NewPGConfig()
 	grpcCfg := config.NewGRPCConfig()
 	migrationpath := config.NewMigrationsConfig()
@@ -76,7 +82,7 @@ func main() {
 		log.Fatal("err init repository: ", err)
 	}
 
-	wishService := service_wish.NewWishService(repository, userService)
+	wishService := service_wish.NewWishService(repository, userService, httpAddr.Address())
 	wishImpl := wish_api.NewImplementation(wishService)
 
 	server := grpc.NewServer()
@@ -89,7 +95,7 @@ func main() {
 		log.Fatal("err listen grpc server: ", err)
 	}
 
-	httpServer, err := httpserver.NewServer(grpcCfg.HTTPAddress(), wishImpl)
+	httpServer, err := httpserver.NewServer(httpAddr.Address(), wishImpl)
 	if err != nil {
 		log.Fatal("err init http server: ", err)
 	}

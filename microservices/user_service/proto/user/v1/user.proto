@@ -30,6 +30,7 @@ service UserV1 {
       body: "*"
     };
   };
+  rpc CheckSubIsAccepted(CheckSubIsAcceptedRequest) returns (CheckSubIsAcceptedResponse);
 }
 
 message User {
@@ -83,3 +84,12 @@ message AcceptedSubRequest {
 }
 
 message AcceptedSubResponse {}
+
+message CheckSubIsAcceptedRequest {
+  int64 from_tg_id = 1;
+  int64 to_tg_id = 2;
+}
+
+message CheckSubIsAcceptedResponse {
+  bool is_accepted = 1;
+}

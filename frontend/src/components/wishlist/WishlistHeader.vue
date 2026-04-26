@@ -6,9 +6,15 @@
     </div>
 
     <div class="actions-row">
-      <button type="button" class="action-btn search-btn" aria-label="Поиск">
-        <span class="action-icon">🔍</span>
-        <span>Поиск</span>
+      <button
+        type="button"
+        class="action-btn search-btn"
+        aria-label="Открыть свой wishlist"
+        :disabled="!canOpenOwnWishlist"
+        @click="$emit('open-own-wishlist')"
+      >
+        <span class="action-icon">♡</span>
+        <span>Мой wishlist</span>
       </button>
 
       <button
@@ -27,9 +33,13 @@
 <script>
 export default {
   name: 'WishlistHeader',
-  emits: ['open-add-user'],
+  emits: ['open-add-user', 'open-own-wishlist'],
   props: {
     canAddUser: {
+      type: Boolean,
+      default: true
+    },
+    canOpenOwnWishlist: {
       type: Boolean,
       default: true
     }

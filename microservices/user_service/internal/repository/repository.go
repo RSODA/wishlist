@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 
+	"github.com/RSODA/wishlist/internal/models"
 	repoModels "github.com/RSODA/wishlist/internal/repository/models"
 )
 
@@ -13,4 +14,5 @@ type UserRepository interface {
 	Subscribe(ctx context.Context, req *repoModels.SubscribeRequest) error
 	AcceptedSub(ctx context.Context, req *repoModels.AcceptedSubRequests) error
 	GetUser(ctx context.Context, name string) (int64, error)
+	GetSubIsAccepted(ctx context.Context, req *models.GetSubIsAccepted) (bool, error)
 }

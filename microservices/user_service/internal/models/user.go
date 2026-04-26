@@ -31,3 +31,8 @@ type AcceptedSubRequest struct {
 	TgID         int64 `json:"tg_id" db:"tg_id"`
 	AcceptedTgID int64 `json:"accepted_tg_id" db:"accepted_tg_id"`
 }
+
+type GetSubIsAccepted struct {
+	FromTgID int64 `json:"from_tg_id" db:"tg_id"`
+	ToTgID   int64 `json:"to_tg_id" db:"to_tg_id"`
+}

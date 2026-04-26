@@ -13,6 +13,7 @@ type UserService interface {
 	GetSub(ctx context.Context, tgID int64) (*repoModels.GetSubResponse, error)
 	Subscribe(ctx context.Context, req *models.SubscribeRequest) error
 	AcceptedSub(ctx context.Context, req *models.AcceptedSubRequest) error
+	GetSubIsAccepted(ctx context.Context, req *models.GetSubIsAccepted) (bool, error)
 }
 
 type userService struct {

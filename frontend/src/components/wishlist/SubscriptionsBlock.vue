@@ -76,6 +76,15 @@
 
           <div class="subscription-actions">
             <button
+              v-if="showWishlistAction"
+              type="button"
+              class="wishlist-btn"
+              @click="$emit('open-wishlist', subscription)"
+            >
+              Открыть wishlist
+            </button>
+
+            <button
               v-if="showAcceptAction"
               type="button"
               class="confirm-btn"
@@ -98,7 +107,7 @@
 <script>
 export default {
   name: 'SubscriptionsBlock',
-  emits: ['accept-subscription'],
+  emits: ['accept-subscription', 'open-wishlist'],
   props: {
     acceptedSubscriptions: {
       type: Array,
@@ -149,6 +158,9 @@ export default {
     },
     showAcceptAction() {
       return !this.activeAcceptedFilter && this.waitingDisplayMode === 'incoming'
+    },
+    showWishlistAction() {
+      return this.activeAcceptedFilter
     },
     statusPillClass() {
       if (this.activeAcceptedFilter) {
@@ -371,6 +383,18 @@ export default {
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.wishlist-btn {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--border-primary);
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .confirm-btn:disabled {

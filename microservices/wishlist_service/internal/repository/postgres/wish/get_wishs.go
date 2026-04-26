@@ -14,12 +14,12 @@ func (p *postgres) GetWishs(ctx context.Context, req *models.GetWishsRequest) (*
 
 	log.Println("request: ", req)
 
-	builder := sqr.Select("wish.id, wish.title, wish.price, wish.url, wish.picture, status.tg_id, status.title").
+	builder := sqr.Select("wish.id, wish.tg_id, wish.title, wish.price, wish.url, wish.picture, status.tg_id, status.title").
 		From(tableWishList).
 		LeftJoin(statusTableName + " ON status.id = wish.id").
 		Limit(10).
 		Offset(req.Offset).
-		Where(sqr.Eq{"wish.tg_id": req.TgID}).
+		Where(sqr.Eq{"wish.tg_id": req.ToTgID}).
 		PlaceholderFormat(sqr.Dollar)
 
 	query, args, err := builder.ToSql()
@@ -38,7 +38,7 @@ func (p *postgres) GetWishs(ctx context.Context, req *models.GetWishsRequest) (*
 	for rows.Next() {
 		var wish models.Wish
 
-		err = rows.Scan(&wish.ID, &wish.Title, &wish.Price, &wish.URL, &wish.Picture, &wish.Status.TgID, &wish.Status.Title)
+		err = rows.Scan(&wish.ID, &wish.TgID, &wish.Title, &wish.Price, &wish.URL, &wish.Picture, &wish.Status.TgID, &wish.Status.Title)
 		if err != nil {
 			log.Println("err scan rows: ", err)
 			return nil, errors_entity.ErrGetWishs

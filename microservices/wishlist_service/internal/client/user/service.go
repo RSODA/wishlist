@@ -3,11 +3,13 @@ package user
 import (
 	"context"
 
+	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/models"
 	user_v1 "github.com/RSODA/wishlist/pkg/proto/user/v1"
 )
 
 type Client interface {
 	GetUserSub(ctx context.Context, tg_id int64) (*user_v1.GetSubResponse, error)
+	GetCheckSub(ctx context.Context, req *models.GetWishsRequest) (bool, error)
 }
 
 type userService struct {

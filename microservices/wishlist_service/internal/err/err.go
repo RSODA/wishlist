@@ -12,3 +12,5 @@ var ErrUserNotFound = errors.New("user not found")
 var ErrGetWishById = errors.New("get wish by id error")
 
 var ErrInvalidId = errors.New("invalid id")
+
+var ErrSubNotConfirmed = errors.New("sub not confirmed")

@@ -26,6 +26,7 @@ type CreateRequest struct {
 
 type GetWishsRequest struct {
 	TgID   int64  `json:"tg_id" validate:"required"`
+	ToTgID int64  `json:"to_tg_id" validate:"required"`
 	Offset uint64 `json:"offset" validate:"required"`
 }
 

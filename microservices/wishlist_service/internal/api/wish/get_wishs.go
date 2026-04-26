@@ -15,12 +15,17 @@ import (
 func (i *Implementation) GetWishs(ctx context.Context, req *wish_v1.GetWishsRequest) (*wish_v1.GetWishsResponse, error) {
 	resp, err := i.wishService.GetWishs(ctx, &models.GetWishsRequest{
 		TgID:   req.TgId,
+		ToTgID: req.ToTgId,
 		Offset: req.Offset,
 	})
 
 	if err != nil {
 		if errors.Is(err, errors_entity.ErrInvalidId) {
 			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
+
+		if errors.Is(err, errors_entity.ErrSubNotConfirmed) {
+			return nil, status.Error(codes.PermissionDenied, err.Error())
 		}
 
 		return nil, status.Error(codes.Internal, err.Error())

@@ -1,0 +1,6 @@
+-- +goose Up
+ALTER TABLE wish
+    ADD COLUMN IF NOT EXISTS created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    DROP COLUMN IF EXISTS status_id;
+
+-- +goose Down

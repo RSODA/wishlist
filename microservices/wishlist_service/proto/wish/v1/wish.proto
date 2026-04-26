@@ -62,7 +62,8 @@ message GetWishByIdResponse {
 
 message GetWishsRequest {
   int64 tg_id = 1;
-  uint64 offset = 2;
+  int64 to_tg_id = 2;
+  uint64 offset = 3;
 }
 
 message GetWishsResponse {

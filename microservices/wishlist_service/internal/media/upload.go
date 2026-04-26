@@ -24,7 +24,7 @@ func Upload(file string) (string, error) {
 
 	fmt.Println(format)
 
-	filename := time.Now().String()
+	filename := time.Now().Format("20060102150405")
 
 	err = os.WriteFile("assets/img/"+filename+"."+format[0], decodedFile, 0666)
 

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	errors_entity "github.com/RSODA/wishlist/microservices/wishlist_service/internal/err"
+	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/media"
 	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/models"
 )
 
@@ -17,7 +18,7 @@ func (s *wish) GetById(ctx context.Context, id int64) (*models.Wish, error) {
 		return nil, err
 	}
 
-	res.Picture = "http://" + s.host + "/api/v1/static/" + res.Picture + ".jpg"
+	res.Picture = media.StaticUrl(s.host, res.Picture)
 
 	return res, nil
 }

@@ -12,12 +12,27 @@ type User struct {
 }
 
 type Subscribe struct {
-	TgID      int64  `json:"tg_id" db:"tg_id"`
-	Username  string `json:"username" db:"username"`
-	IsApprove bool   `json:"is_approve" db:"is_approve"`
+	TgID       int64 `json:"tg_id" db:"tg_id"`
+	IsAccepted bool  `json:"is_accepted" db:"is_accepted"`
 }
 
 type CreateUserRequest struct {
 	TgID     int64  `json:"tg_id" db:"tg_id"`
 	Username string `json:"username" db:"username"`
+}
+
+type SubscribeRequest struct {
+	TgID       int64  `json:"tg_id" db:"tg_id"`
+	ToTgID     int64  `json:"to_tg_id" db:"to_tg_id"`
+	ToUsername string `json:"to_username" db:"to_username"`
+}
+
+type AcceptedSubRequest struct {
+	TgID         int64 `json:"tg_id" db:"tg_id"`
+	AcceptedTgID int64 `json:"accepted_tg_id" db:"accepted_tg_id"`
+}
+
+type GetSubIsAccepted struct {
+	FromTgID int64 `json:"from_tg_id" db:"tg_id"`
+	ToTgID   int64 `json:"to_tg_id" db:"to_tg_id"`
 }

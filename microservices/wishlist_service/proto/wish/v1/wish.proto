@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/RSODA/wishlist/microservices/wishlist_service/pkg/proto/wish/v1;wish_v1";
+
+import "google/api/annotations.proto";
+
+service WishV1 {
+  rpc GetWishById(GetWishByIdRequest) returns (GetWishByIdResponse);
+
+  rpc GetWishs(GetWishsRequest) returns (GetWishsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/users/{tg_id}/wishes"
+    };
+  }
+
+  rpc CreateWish(CreateWishRequest) returns (CreateWishResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/users/{tg_id}/wishes"
+      body: "*"
+    };
+  }
+
+  rpc DeleteWish(DeleteWishRequest) returns (DeleteWishResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/users/{tg_id}/wishes/{wish_id}"
+    };
+  }
+
+  rpc UpdateStatus(UpdateStatusWishRequest) returns (UpdateStatusWishResponse) {
+    option (google.api.http) = {
+      patch: "/api/v1/users/{tg_id}/wishes/{wish_id}/status"
+      body: "*"
+    };
+  }
+}
+
+message Wish {
+  int64 id = 1;
+  int64 tg_id = 2;
+  string picture = 3;
+  string title = 4;
+  string url = 5;
+  int64 price = 6;
+  Status status = 7;
+}
+
+message Status {
+  int64 id = 1;
+  int64 tg_id = 2;
+  string status = 3;
+}
+
+message GetWishByIdRequest {
+  int64 id = 1;
+}
+
+message GetWishByIdResponse {
+  Wish wish = 1;
+}
+
+message GetWishsRequest {
+  int64 tg_id = 1;
+  int64 to_tg_id = 2;
+  uint64 offset = 3;
+}
+
+message GetWishsResponse {
+  repeated Wish wishs = 1;
+}
+
+message CreateWishRequest {
+  int64 tg_id = 1;
+  string picture = 2;
+  int64 price = 3;
+  string title = 4;
+  string url = 5;
+}
+
+message CreateWishResponse {
+  int64 id = 1;
+}
+
+message DeleteWishRequest {
+  int64 tg_id = 1;
+  int64 wish_id = 2;
+}
+
+message DeleteWishResponse {}
+
+message UpdateStatusWishRequest {
+  int64 tg_id = 1;
+  int64 wish_id = 2;
+  string status = 3;
+}
+
+message UpdateStatusWishResponse {}

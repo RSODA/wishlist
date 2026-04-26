@@ -1,0 +1,13 @@
+package service
+
+import (
+	"context"
+
+	"github.com/RSODA/wishlist/microservices/wishlist_service/internal/models"
+)
+
+type Service interface {
+	Create(ctx context.Context, req *models.CreateRequest) (*int64, error)
+	GetById(ctx context.Context, id int64) (*models.Wish, error)
+	GetWishs(ctx context.Context, req *models.GetWishsRequest) (*models.GetWishsResponse, error)
+}

@@ -17,7 +17,7 @@ func (s *wish) GetById(ctx context.Context, id int64) (*models.Wish, error) {
 		return nil, err
 	}
 
-	res.Picture = "http://localhost:8081/api/v1/static/" + res.Picture + ".jpg"
+	res.Picture = "http://" + s.host + "/api/v1/static/" + res.Picture + ".jpg"
 
 	return res, nil
 }

@@ -11,8 +11,9 @@ type wish struct {
 	r        repository.Repository
 	client   user.Client
 	validate *validator.Validate
+	host     string
 }
 
-func NewWishService(r repository.Repository, c user.Client) service.Service {
-	return &wish{r: r, client: c, validate: validator.New()}
+func NewWishService(r repository.Repository, c user.Client, host string) service.Service {
+	return &wish{r: r, client: c, validate: validator.New(), host: host}
 }

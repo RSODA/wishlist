@@ -32,7 +32,7 @@ func (s *wish) GetWishs(ctx context.Context, req *models.GetWishsRequest) (*mode
 	}
 
 	for _, v := range resp.Wishs {
-		v.Picture = "http://localhost:8081/api/v1/static/" + v.Picture
+		v.Picture = "http://" + s.host + "/api/v1/static/" + v.Picture
 	}
 
 	return resp, nil

@@ -34,6 +34,10 @@ WHERE NOT EXISTS (
 
 	builder := sqr.Insert(subTableName).PlaceholderFormat(sqr.Dollar).Values(req.TgID, req.ToTgID).Columns(subFromId, subToId)
 	query, args, err := builder.ToSql()
+	if err != nil {
+		log.Println("err build query for Subscribe: ", err)
+		return models.ErrSubscribe
+	}
 
 	_, err = p.db.Exec(ctx, query, args...)
 	if err != nil {

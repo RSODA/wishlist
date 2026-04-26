@@ -2,6 +2,9 @@ package errors_entity
 
 import "errors"
 
+var ErrHostNotFound = errors.New("host not found")
+var ErrPortNotFound = errors.New("port not found")
+
 var ErrCreateWish = errors.New("create new wish error")
 var ErrGetWishs = errors.New("get wishs error")
 

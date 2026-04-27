@@ -14,7 +14,8 @@ func (p *postgres) Create(ctx context.Context, req *models.CreateRequest) (*int6
 
 	builder := sqr.Insert(tableWishList).Columns(tgIdColumnWishList, titleColumnWishList, priceColumnWishList, urlColumnWishList, pictureColumnWishList).
 		PlaceholderFormat(sqr.Dollar).
-		Values(req.TgID, req.Title, req.Price, req.URL, req.Picture).Suffix("RETURNING id")
+		Values(req.TgID, req.Title, req.Price, req.URL, req.Picture).
+		Suffix("RETURNING id")
 
 	query, args, err := builder.ToSql()
 	if err != nil {

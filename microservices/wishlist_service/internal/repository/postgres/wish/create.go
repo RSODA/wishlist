@@ -25,6 +25,7 @@ func (p *postgres) Create(ctx context.Context, req *models.CreateRequest) (*int6
 	err = p.db.QueryRow(ctx, query, args...).Scan(&id)
 	if err != nil {
 		log.Println("err query Wish List: ", err)
+		return nil, errors_entity.ErrCreateWish
 	}
 
 	return &id, nil

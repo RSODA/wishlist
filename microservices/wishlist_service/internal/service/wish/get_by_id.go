@@ -18,7 +18,7 @@ func (s *wish) GetById(ctx context.Context, id int64) (*models.Wish, error) {
 		return nil, err
 	}
 
-	res.Picture = media.StaticUrl(s.host, res.Picture)
+	res.Picture = media.StaticURL(s.host, res.Picture)
 
 	return res, nil
 }

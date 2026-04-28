@@ -33,7 +33,7 @@ func (s *wish) GetWishs(ctx context.Context, req *models.GetWishsRequest) (*mode
 	}
 
 	for _, v := range resp.Wishs {
-		v.Picture = media.StaticUrl(s.host, v.Picture)
+		v.Picture = media.StaticURL(s.host, v.Picture)
 	}
 
 	return resp, nil

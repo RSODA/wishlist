@@ -7,3 +7,4 @@ CREATE TABLE sub (
 
 
 -- +goose Down
+DROP TABLE sub;

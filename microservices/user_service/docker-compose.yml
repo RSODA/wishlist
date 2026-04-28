@@ -13,3 +13,15 @@ services:
       - "${PG_PORT}:5432"
     volumes:
       - postgres_volume:/var/lib/postgresql/data
+
+  user_service:
+    build:
+      context: .
+      dockerfile: go.Dockerfile
+    depends_on:
+      - pg
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: pg
+      DB_PORT: 5432

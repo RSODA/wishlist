@@ -21,3 +21,5 @@ buf-update:
 proto-generate:
 	cd proto && $(LOCAL_BIN)/buf generate
 
+run:
+	go run cmd/main/main.go

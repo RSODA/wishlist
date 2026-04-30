@@ -5,10 +5,15 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
+	"time"
 
 	"github.com/RSODA/wishlist/internal/api"
 	"github.com/RSODA/wishlist/internal/config"
+	"github.com/RSODA/wishlist/internal/interceptor"
 	"github.com/RSODA/wishlist/internal/migrator"
 	postgres "github.com/RSODA/wishlist/internal/repository/postgres/user"
 	service "github.com/RSODA/wishlist/internal/service/user"
@@ -22,17 +27,22 @@ import (
 )
 
 const (
-	grpcAddress    = "localhost:3030"
 	gatewayAddress = "localhost:5555"
 )
 
 func main() {
+	shutdownCh := make(chan os.Signal, 1)
+	signal.Notify(shutdownCh, os.Interrupt, syscall.SIGTERM)
+
 	err := config.Load()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	cfg := config.NewPostgresConfig()
+	cfg, err := config.NewPostgresConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	db, err := pgxpool.New(context.Background(), cfg.DSN())
 	if err != nil {
@@ -45,7 +55,10 @@ func main() {
 		return
 	}
 
-	migrationCfg := config.NewMigrationsConfig()
+	migrationCfg, err := config.NewMigrationsConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	migratorRunner := migrator.NewMigrator(stdlib.OpenDB(*db.Config().ConnConfig), migrationCfg.MigrationPath())
 
@@ -59,12 +72,19 @@ func main() {
 	services := service.NewUserService(repo)
 	impl := api.NewImplementation(services)
 
-	list, err := net.Listen("tcp", grpcAddress)
+	grpcCfg, err := config.NewGRPCConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	grpcServer := grpc.NewServer()
+	list, err := net.Listen("tcp", grpcCfg.ServiceAddress())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(interceptor.AuthInterceptor),
+	)
 
 	wishlist.RegisterUserV1Server(grpcServer, impl)
 	reflection.Register(grpcServer)
@@ -76,7 +96,7 @@ func main() {
 	err = wishlist.RegisterUserV1HandlerFromEndpoint(
 		context.Background(),
 		gatewayMux,
-		grpcAddress,
+		grpcCfg.ServiceAddress(),
 		[]grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())},
 	)
 	if err != nil {
@@ -91,7 +111,7 @@ func main() {
 	errCh := make(chan error, 2)
 
 	go func() {
-		log.Printf("starting gRPC server on %s", grpcAddress)
+		log.Printf("starting gRPC server on %s", grpcCfg.ServiceAddress())
 		errCh <- grpcServer.Serve(list)
 	}()
 
@@ -100,10 +120,26 @@ func main() {
 		errCh <- httpServer.ListenAndServe()
 	}()
 
-	err = <-errCh
-	if err != nil {
-		log.Fatal(err)
+	select {
+	case err = <-errCh:
+		log.Printf("server error: %v", err)
+	case <-shutdownCh:
+		log.Println("shutdown signal received")
 	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	log.Println("shutting down server gracefully")
+
+	log.Println("shutting down gRPC server")
+	grpcServer.GracefulStop()
+
+	log.Println("shutting down HTTP server")
+	httpServer.Shutdown(ctx)
+
+	log.Println("close connect to postgres")
+	db.Close()
 }
 
 func incomingHeaderMatcher(key string) (string, bool) {

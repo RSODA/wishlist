@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	sqr "github.com/Masterminds/squirrel"
@@ -21,8 +22,8 @@ func (p *Postgres) CreateUser(ctx context.Context, req *modelsRepo.CreateUserReq
 
 	_, err = p.db.Exec(ctx, query, args...)
 	if err != nil {
-		if err.(*pgconn.PgError).Code == "23505" {
-			log.Println("User already exists")
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
 			return models.ErrUserIsExist
 		}
 		log.Println("Err exec: ", err)

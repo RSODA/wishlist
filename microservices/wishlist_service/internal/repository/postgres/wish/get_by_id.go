@@ -23,7 +23,7 @@ func (p *postgres) GetById(ctx context.Context, id int64) (*models.Wish, error) 
 		return nil, errors_entity.ErrGetWishById
 	}
 
-	err = p.db.QueryRow(ctx, query, args...).Scan(&wish.ID, &wish.TgID, &wish.Title, &wish.Price, &wish.URL, &wish.Picture, &wish.Status.ID, &wish.Title, &wish.TgID)
+	err = p.db.QueryRow(ctx, query, args...).Scan(&wish.ID, &wish.TgID, &wish.Title, &wish.Price, &wish.URL, &wish.Picture, &wish.Status.ID, &wish.Status.Title, &wish.Status.TgID)
 	if err != nil {
 		log.Println("err executing sql get wish by id: ", err)
 	}

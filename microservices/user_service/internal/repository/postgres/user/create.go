@@ -8,7 +8,7 @@ import (
 	sqr "github.com/Masterminds/squirrel"
 	"github.com/RSODA/wishlist/internal/models"
 	modelsRepo "github.com/RSODA/wishlist/internal/repository/models"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func (p *Postgres) CreateUser(ctx context.Context, req *modelsRepo.CreateUserRequest) error {
@@ -22,8 +22,8 @@ func (p *Postgres) CreateUser(ctx context.Context, req *modelsRepo.CreateUserReq
 
 	_, err = p.db.Exec(ctx, query, args...)
 	if err != nil {
-		if errors.As(err, &pgx.ErrNoRows) {
-			log.Println("User already exists")
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
 			return models.ErrUserIsExist
 		}
 		log.Println("Err exec: ", err)

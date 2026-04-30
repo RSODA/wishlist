@@ -1,7 +1,7 @@
 package config
 
 import (
-	"log"
+	"errors"
 	"os"
 )
 
@@ -13,16 +13,15 @@ type migrationsConfig struct {
 	migrationPath string
 }
 
-func NewMigrationsConfig() MigrationsConfig {
+func NewMigrationsConfig() (MigrationsConfig, error) {
 	path := os.Getenv("MIGRATIONS_PATH")
 	if len(path) == 0 {
-		log.Fatalf("environment variable MIGRATIONS_PATH not defined")
-		return nil
+		return nil, errors.New("environment variable MIGRATIONS_PATH not defined")
 	}
 
 	return &migrationsConfig{
 		migrationPath: path,
-	}
+	}, nil
 }
 
 func (m *migrationsConfig) MigrationPath() string {

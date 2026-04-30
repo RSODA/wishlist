@@ -1,7 +1,7 @@
 package config
 
 import (
-	"log"
+	"errors"
 	"os"
 )
 
@@ -12,13 +12,12 @@ type postgresConfig struct {
 	dsn string
 }
 
-func NewPostgresConfig() PostgresConfig {
+func NewPostgresConfig() (PostgresConfig, error) {
 	dsn := os.Getenv("PG_DSN")
 	if len(dsn) == 0 {
-		log.Fatal("environment variable dsn is not set")
-		return nil
+		return nil, errors.New("PG_DSN environment variable not set")
 	}
-	return &postgresConfig{dsn: dsn}
+	return &postgresConfig{dsn: dsn}, nil
 }
 
 func (pc *postgresConfig) DSN() string {

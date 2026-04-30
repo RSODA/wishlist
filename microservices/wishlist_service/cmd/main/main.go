@@ -37,9 +37,16 @@ func main() {
 		return
 	}
 
-	dsn := config.NewPGConfig()
+	dsn, err := config.NewPGConfig()
+	if err != nil {
+		log.Fatal("err init database config: ", err)
+	}
+
 	grpcCfg := config.NewGRPCConfig()
-	migrationpath := config.NewMigrationsConfig()
+	migrationpath, err := config.NewMigrationsConfig()
+	if err != nil {
+		log.Fatal("err init migrations config: ", err)
+	}
 
 	db, err := pgxpool.New(context.Background(), dsn.DSN())
 	if err != nil {

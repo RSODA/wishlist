@@ -22,7 +22,6 @@ import (
 )
 
 const (
-	grpcAddress    = "localhost:3030"
 	gatewayAddress = "localhost:5555"
 )
 
@@ -59,7 +58,9 @@ func main() {
 	services := service.NewUserService(repo)
 	impl := api.NewImplementation(services)
 
-	list, err := net.Listen("tcp", grpcAddress)
+	grpcCfg := config.NewGRPCConfig()
+
+	list, err := net.Listen("tcp", grpcCfg.ServiceAddress())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,7 +77,7 @@ func main() {
 	err = wishlist.RegisterUserV1HandlerFromEndpoint(
 		context.Background(),
 		gatewayMux,
-		grpcAddress,
+		grpcCfg.ServiceAddress(),
 		[]grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())},
 	)
 	if err != nil {
@@ -91,7 +92,7 @@ func main() {
 	errCh := make(chan error, 2)
 
 	go func() {
-		log.Printf("starting gRPC server on %s", grpcAddress)
+		log.Printf("starting gRPC server on %s", grpcCfg.ServiceAddress())
 		errCh <- grpcServer.Serve(list)
 	}()
 

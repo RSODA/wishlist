@@ -2,12 +2,13 @@ package user
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	sqr "github.com/Masterminds/squirrel"
 	"github.com/RSODA/wishlist/internal/models"
 	modelsRepo "github.com/RSODA/wishlist/internal/repository/models"
-	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/jackc/pgx/v5"
 )
 
 func (p *Postgres) CreateUser(ctx context.Context, req *modelsRepo.CreateUserRequest) error {
@@ -21,7 +22,7 @@ func (p *Postgres) CreateUser(ctx context.Context, req *modelsRepo.CreateUserReq
 
 	_, err = p.db.Exec(ctx, query, args...)
 	if err != nil {
-		if err.(*pgconn.PgError).Code == "23505" {
+		if errors.As(err, &pgx.ErrNoRows) {
 			log.Println("User already exists")
 			return models.ErrUserIsExist
 		}

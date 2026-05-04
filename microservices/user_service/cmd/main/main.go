@@ -26,10 +26,6 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-const (
-	gatewayAddress = "localhost:5555"
-)
-
 func main() {
 	shutdownCh := make(chan os.Signal, 1)
 	signal.Notify(shutdownCh, os.Interrupt, syscall.SIGTERM)
@@ -103,8 +99,13 @@ func main() {
 		log.Fatal(err)
 	}
 
+	httpCfg, err := config.NewHTTPConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	httpServer := &http.Server{
-		Addr:    gatewayAddress,
+		Addr:    httpCfg.Address(),
 		Handler: gatewayMux,
 	}
 
@@ -116,7 +117,7 @@ func main() {
 	}()
 
 	go func() {
-		log.Printf("starting gateway server on %s", gatewayAddress)
+		log.Printf("starting gateway server on %s", httpCfg.Address())
 		errCh <- httpServer.ListenAndServe()
 	}()
 

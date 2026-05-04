@@ -10,8 +10,13 @@ import (
 
 func (s *userService) Subscribe(ctx context.Context, req *models.SubscribeRequest) error {
 	if req.TgID < 0 || req.ToTgID < 0 {
-		log.Println("Subscribe: invalid argument", req)
+		log.Println("Subscribe: invalid argument: ", req)
 		return models.ErrInvalidArgument
+	}
+
+	if req.TgID == req.ToTgID {
+		log.Println("Subscribe from and too identical: ", req)
+		return models.ErrIdenticalID
 	}
 
 	id, err := s.repo.GetUser(ctx, req.ToUsername)

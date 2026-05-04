@@ -42,6 +42,8 @@ func (p *Postgres) GetSubTo(ctx context.Context, tgId int64) ([]models.Subscribe
 		res = append(res, item)
 	}
 
+	defer rows.Close()
+
 	log.Println("result get sub to: ", res)
 
 	return res, nil

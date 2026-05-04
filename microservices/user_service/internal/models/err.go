@@ -20,5 +20,6 @@ var ErrUserAlreadySubscribed = errors.New("user to subscription failed")
 var ErrJsonMarshal = errors.New("json marshal failed")
 var ErrSubscribe = errors.New("subscribe failed")
 var ErrInvalidArgument = errors.New("invalid argument(-s)")
+var ErrIdenticalID = errors.New("identicalID")
 
 var ErrAcceptedSub = errors.New("accepted sub failed")
